@@ -1,0 +1,30 @@
+{
+  "name": "material-ui-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-native": "^0.47.1",
+    "react-native-web": "0.0.119",
+    "react-router-dom": "^4.1.2",
+    "react-scripts": "1.0.11",
+    "react-tap-event-plugin": "^2.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "description": "This application includes basic boiler plate for react js app. It shows how to create Components/ how to navigate between pages.",
+  "main": "index.js",
+  "devDependencies": {},
+  "keywords": [
+    "carbon-ui",
+    "react",
+    "js"
+  ],
+  "author": "pradeep",
+  "license": "ISC"
+}

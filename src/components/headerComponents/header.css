@@ -1,0 +1,68 @@
+@mixin translateY($s){
+	-webkit-transform:translateY($s) ;
+		-moz-transform:translateY($s);
+		 transform: translateY($s);
+}
+
+@mixin transition($s){
+	-webkit-transtion:transition($s) ;
+		-moz-transition:transition($s);
+		 transition: transition($s);
+}
+
+header {
+	position :relative;
+	display: block;
+	background:black;
+	color:white;
+	height: 90px;
+	
+}
+.logo{
+		position: absolute;
+		top:50%;right:15px;
+	-webkit-transform:translateY(-50%) ;
+		-moz-transform:translateY(-50%);
+		 transform: translateY(-50%);
+	
+}
+nav,
+nav ul,
+nav ul li{
+margin:0;
+padding:0;
+}
+
+ul {
+	position:obsolute;
+	top:50%;left:15px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+li {
+
+    float: left;
+	-webkit-transform:translateY(0%) ;
+		-moz-transform:translateY(50%);
+		 transform: translateY(50%);
+	
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+	color:black;
+    background-color: white;
+}
+
+
+
