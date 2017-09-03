@@ -1,17 +1,43 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-import {
-  Table,
+import Typography from 'material-ui/Typography';
+import PropTypes from 'prop-types';
+
+import { withStyles } from 'material-ui/styles';
+
+import Toolbar from 'material-ui/Toolbar';
+
+import IconButton from 'material-ui/IconButton';
+import MenuIcon from 'material-ui-icons/Menu';
+import keycode from 'keycode';
+import Table, {
   TableBody,
-  TableHeader,
-  TableHeaderColumn,
+  TableCell,
+  TableHead,
   TableRow,
-  TableRowColumn,
+  TableSortLabel,
 } from 'material-ui/Table';
+import Checkbox from 'material-ui/Checkbox';
+
 var getSearchData=require('../models/getSearchResults');
+
+const styles = {
+  AppBar: {
+    marginTop: 30,
+    width: '100%',
+  },
+  flex: {
+    flex: 1,
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 20,
+  },
+};
+
 class Search extends Component{
 
 constructor(props){
@@ -19,45 +45,32 @@ constructor(props){
      this.state={
         searchParameter:'',
         results:[],
-        tableHTML:''
+        tableHTML:'',
+        username:this.props.appContext.state.username
     }
 }
 populateTable(tableData){
     return(
         <div>
-         <Table
-          height='300px'
-          fixedHeader={true}
-          selectable={false}
-          multiSelectable={false}
-        >
-          <TableHeader
-            displaySelectAll={false}
-            adjustForCheckbox={false}
-            enableSelectAll={false}
-          >
+         <Table>
+         <TableHead>
             <TableRow>
-              <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{textAlign: 'center'}}>
+              <TableCell colSpan="3" tooltip="Super Header" style={{textAlign: 'center'}}>
                 Super Header
-              </TableHeaderColumn>
+              </TableCell>
             </TableRow>
             <TableRow>
-              <TableHeaderColumn tooltip="Person ID">ID</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Name of the person">Name</TableHeaderColumn>
-              <TableHeaderColumn tooltip="Condition of the person">Condition</TableHeaderColumn>
+              <TableCell tooltip="Person ID">ID</TableCell>
+              <TableCell tooltip="Name of the person">Name</TableCell>
+              <TableCell tooltip="Condition of the person">Condition</TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody
-            displayRowCheckbox={false}
-            deselectOnClickaway={false}
-            showRowHover={true}
-            stripedRows={true}
-          >
+          </TableHead>
+          <TableBody>
             {tableData.map( (row, index) => (
               <TableRow key={index}>
-                <TableRowColumn>{index}</TableRowColumn>
-                <TableRowColumn>{row.name}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
+                <TableCell>{index}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.status}</TableCell>
               </TableRow>
               ))}
           </TableBody>
@@ -78,27 +91,47 @@ handleClick(event){
 }
 
 render(){
+  const classes = this.props.classes;
         return(
           <div>
-            <MuiThemeProvider>
-                <div>
-                <AppBar title='Search Data' titleStyle={{textAlign:'center'}}/>
-                 <TextField
-                      hintText="Provide value to search with !!"
-                     floatingLabelText="Search Parameter"
-                     onChange={(event,newValue)=>this.setState({searchParameter:newValue})}
-                     
-                   />
-                  <br />
-                  <RaisedButton label="Search" primary={true}  onClick={(event) => this.handleClick(event)}/>
-                  <hr/>
-                  {this.state.tableHTML}
-            </div>
-            </MuiThemeProvider>    
+            
+          <div>
+          <div className={classes.AppBar}>
+          <AppBar position="static">
+            <Toolbar disableGutters>
+              <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
+                <MenuIcon />
+              </IconButton>
+              <Typography type="title" color="inherit" className={classes.flex}>
+                Select Actions
+              </Typography>
+              <Button color="contrast">Logout</Button>
+            </Toolbar>
+          </AppBar>
+        </div>
+
+       <TextField
+          id="searchParameter"
+          label="Search Parameter"
+          className={classes.textField}
+          value={this.state.searchParameter}
+          onChange={event => this.setState({ searchParameter: event.target.value })}
+          margin="normal"
+        /> &nbsp;&nbsp;
+                  
+         <Button raised color="primary" className={classes.button} onClick={(event) => this.handleClick(event)}> Search </Button>
+         <hr/>
+          {this.state.tableHTML}
+         </div>
+             
           </div>
 
         );
     }
 }
 
-export default Search;
+Search.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Search);

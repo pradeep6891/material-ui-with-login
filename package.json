@@ -1,8 +1,9 @@
 {
-  "name": "material-ui-app",
+  "name": "material-ui-with-login",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "material-ui": "^1.0.0-beta.8",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-native": "^0.47.1",
@@ -21,7 +22,7 @@
   "main": "index.js",
   "devDependencies": {},
   "keywords": [
-    "carbon-ui",
+    "material-ui",
     "react",
     "js"
   ],

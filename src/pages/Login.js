@@ -1,11 +1,42 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Search from './Search';
 import Paper from 'material-ui/Paper';
+import Typography from 'material-ui/Typography';
+import { withStyles } from 'material-ui/styles';
 var auth=require('../models/Authenticate');
+
+
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  button: {
+    marginLeft: theme.spacing.unit*7,
+  },
+  input: {
+    display: 'none',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit*7,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  paper: theme.mixins.gutters({
+    paddingTop: 16,
+    paddingBottom: 16,
+    marginTop: theme.spacing.unit * 20,
+    marginLeft: theme.spacing.unit * 50,
+    width:400,
+    height:300,
+    align:"center",
+  }),
+});
+
 
 class Login extends Component {
 constructor(props){
@@ -22,9 +53,9 @@ constructor(props){
     auth.Authenticate(this.state.username,this.state.password,function(data){
       if(data===true){
         console.log("Login successfull");
-        var uploadScreen=[];
-        uploadScreen.push(<Search appContext={self.props.appContext}/>)
-        self.props.appContext.setState({loginPage:[],isLoggedIn:true,uploadScreen:uploadScreen})
+        var homePage=[];
+        homePage.push(<Search appContext={self.props.appContext}/>)
+        self.props.appContext.setState({loginPage:[],isLoggedIn:true,homePage:homePage})
      }
       else{
          console.log("Username password do not match");
@@ -34,45 +65,44 @@ constructor(props){
 }
  
 render() {
+  const classes = this.props.classes;
     return (
-      <div>
-        <MuiThemeProvider>
-          <div>
-          <AppBar
-             title="Login Page"
-             titleStyle={{textAlign:'center'}}
-           />
-            <Paper style={paperstyle} zDepth={1} >
-           <TextField
-             hintText="Enter your Username"
-             floatingLabelText="Username"
-             onChange = {(event,newValue) => this.setState({username:newValue})}
-             />
-           <br/>
-             <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
-               onChange = {(event,newValue) => this.setState({password:newValue})}
-               />
-             <br/>
-             <RaisedButton label="Login" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
-             </Paper>
-         </div>
-         </MuiThemeProvider>
-      </div>
+     <div>
+       <Paper className={classes.paper} elevation={4}>
+       <Typography type="headline" component="h3">
+          Login Form
+        </Typography>
+        <br/>
+        <TextField
+          id="username"
+          label="User Name"
+          className={classes.textField}
+          value={this.state.username}
+          onChange={event => this.setState({ username: event.target.value })}
+          margin="normal"
+        />
+        <br/>
+        <TextField
+          id="password"
+          label="Password"
+          className={classes.textField}
+          value={this.state.password}
+          onChange={event => this.setState({ password: event.target.value })}
+          margin="normal"
+        />
+        <br/>
+             
+             <Button raised color="primary" className={classes.button} onClick={(event) => this.handleClick(event)}> 
+               Login
+            </Button>
+            </Paper>
+            </div>
     );
+    
   }
 }
-const style = {
-  position:'relative',
- margin: 20,
+
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
 };
-const paperstyle = {
-  height: 220,
-  width: 300,
-  margin: '100px 150px 100px 500px',
-  textAlign: 'center',
-  display: 'inline-block',
-};
-export default Login;
+export default  withStyles(styles)(Login);
